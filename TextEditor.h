@@ -251,6 +251,8 @@ public:
 	void SelectWordUnderCursor();
 	void SelectAll();
 	bool HasSelection() const;
+	std::string GetWordAt(const Coordinates& aCoords) const;
+	Coordinates ScreenPosToCoordinates(const ImVec2& aPosition) const;
 
 	void Copy();
 	void Cut();
@@ -325,7 +327,6 @@ private:
 	void DeleteRange(const Coordinates& aStart, const Coordinates& aEnd);
 	int InsertTextAt(Coordinates& aWhere, const char* aValue);
 	void AddUndo(UndoRecord& aValue);
-	Coordinates ScreenPosToCoordinates(const ImVec2& aPosition) const;
 	Coordinates FindWordStart(const Coordinates& aFrom) const;
 	Coordinates FindWordEnd(const Coordinates& aFrom) const;
 	Coordinates FindNextWord(const Coordinates& aFrom) const;
@@ -341,7 +342,6 @@ private:
 	void Backspace();
 	void DeleteSelection();
 	std::string GetWordUnderCursor() const;
-	std::string GetWordAt(const Coordinates& aCoords) const;
 	ImU32 GetGlyphColor(const Glyph& aGlyph) const;
 
 	void HandleKeyboardInputs();
