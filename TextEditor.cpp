@@ -931,7 +931,7 @@ void TextEditor::Render()
 			if (lineNo + 1 == mDebugLine)
 			{
 				auto end = ImVec2(lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y);
-				drawList->AddRectFilled(start, end, IM_COL32(136, 255, 38, 200));
+				drawList->AddRectFilled(start, end, IM_COL32(0, 255, 0, 50));
 			}
 
 			// Draw breakpoints
