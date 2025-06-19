@@ -195,8 +195,8 @@ public:
 	void SetErrorMarkers(const ErrorMarkers& aMarkers) { mErrorMarkers = aMarkers; }
 	void SetBreakpoints(const Breakpoints& aMarkers) { mBreakpoints = aMarkers; }
 
-	void SetDebugLine(uint32_t line) { m_DebugLine = line; }
-	uint32_t GetDebugLine() const { return m_DebugLine; }
+	void SetDebugLine(uint32_t line) { mDebugLine = line; }
+	uint32_t GetDebugLine() const { return mDebugLine; }
 	void SetVariableHoverCallback(std::function<void(const std::string&)> callback) { mVariableCallback = callback; }
 
 	void Render(const char* aTitle, const ImVec2& aSize = ImVec2(), bool aBorder = false);
