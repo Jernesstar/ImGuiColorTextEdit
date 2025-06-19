@@ -1089,7 +1089,7 @@ void TextEditor::Render()
 
 		// Draw a tooltip on known identifiers/preprocessor symbols
 		// Call the variable callback when a variable is hovered
-		if (ImGui::IsMousePosValid())
+		if (ImGui::IsMousePosValid() && ImGui::IsWindowHovered())
 		{
 			auto id = GetWordAt(ScreenPosToCoordinates(ImGui::GetMousePos()));
 			if (!id.empty())
