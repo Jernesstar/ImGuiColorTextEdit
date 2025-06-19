@@ -925,9 +925,16 @@ void TextEditor::Render()
 				drawList->AddRectFilled(vstart, vend, mPalette[(int)PaletteIndex::Selection]);
 			}
 
-			// Draw breakpoints
 			auto start = ImVec2(lineStartScreenPos.x + scrollX, lineStartScreenPos.y);
 
+			// Draw debug line
+			if (lineNo + 1 == mDebugLine)
+			{
+				auto end = ImVec2(lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y);
+				drawList->AddRectFilled(start, end, 0xFFC58F);
+			}
+
+			// Draw breakpoints
 			if (mBreakpoints.count(lineNo + 1) != 0)
 			{
 				auto end = ImVec2(lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y);
@@ -1081,27 +1088,31 @@ void TextEditor::Render()
 		}
 
 		// Draw a tooltip on known identifiers/preprocessor symbols
+		// Call the variable callback when a variable is hovered
 		if (ImGui::IsMousePosValid())
 		{
 			auto id = GetWordAt(ScreenPosToCoordinates(ImGui::GetMousePos()));
 			if (!id.empty())
 			{
-				auto it = mLanguageDefinition.mIdentifiers.find(id);
-				if (it != mLanguageDefinition.mIdentifiers.end())
+				if (auto it = mLanguageDefinition.mIdentifiers.find(id);
+					it != mLanguageDefinition.mIdentifiers.end())
 				{
 					ImGui::BeginTooltip();
 					ImGui::TextUnformatted(it->second.mDeclaration.c_str());
 					ImGui::EndTooltip();
 				}
+				else if (auto pi = mLanguageDefinition.mPreprocIdentifiers.find(id);
+					pi != mLanguageDefinition.mPreprocIdentifiers.end())
+				{
+					ImGui::BeginTooltip();
+					ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
+					ImGui::EndTooltip();
+				}
 				else
 				{
-					auto pi = mLanguageDefinition.mPreprocIdentifiers.find(id);
-					if (pi != mLanguageDefinition.mPreprocIdentifiers.end())
-					{
-						ImGui::BeginTooltip();
-						ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
-						ImGui::EndTooltip();
-					}
+					ImGui::BeginTooltip();
+					mVariableCallback(id);
+					ImGui::EndTooltip();
 				}
 			}
 		}

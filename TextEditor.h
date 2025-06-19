@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <functional>
 #include <vector>
 #include <array>
 #include <memory>
@@ -194,6 +195,10 @@ public:
 	void SetErrorMarkers(const ErrorMarkers& aMarkers) { mErrorMarkers = aMarkers; }
 	void SetBreakpoints(const Breakpoints& aMarkers) { mBreakpoints = aMarkers; }
 
+	void SetDebugLine(uint32_t line) { m_DebugLine = line; }
+	uint32_t GetDebugLine() const { return m_DebugLine; }
+	void SetVariableHoverCallback(std::function<void(const std::string&)> callback) { mVariableCallback = callback; }
+
 	void Render(const char* aTitle, const ImVec2& aSize = ImVec2(), bool aBorder = false);
 	void SetText(const std::string& aText);
 	std::string GetText() const;
@@ -251,8 +256,6 @@ public:
 	void SelectWordUnderCursor();
 	void SelectAll();
 	bool HasSelection() const;
-	std::string GetWordAt(const Coordinates& aCoords) const;
-	Coordinates ScreenPosToCoordinates(const ImVec2& aPosition) const;
 
 	void Copy();
 	void Cut();
@@ -343,11 +346,14 @@ private:
 	void DeleteSelection();
 	std::string GetWordUnderCursor() const;
 	ImU32 GetGlyphColor(const Glyph& aGlyph) const;
+	std::string GetWordAt(const Coordinates& aCoords) const;
+	Coordinates ScreenPosToCoordinates(const ImVec2& aPosition) const;
 
 	void HandleKeyboardInputs();
 	void HandleMouseInputs();
 	void Render();
 
+	std::function<void(const std::string&)> mVariableCallback;
 	float mLineSpacing;
 	Lines mLines;
 	EditorState mState;
@@ -378,6 +384,7 @@ private:
 	RegexList mRegexList;
 
 	bool mCheckComments;
+	uint32_t mDebugLine = 0;
 	Breakpoints mBreakpoints;
 	ErrorMarkers mErrorMarkers;
 	ImVec2 mCharAdvance;
