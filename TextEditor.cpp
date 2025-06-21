@@ -1110,7 +1110,7 @@ void TextEditor::Render()
 				}
 				else
 				{
-					mVariableCallback(id);
+					mWordCallback(id);
 				}
 			}
 		}
