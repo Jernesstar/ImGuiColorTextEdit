@@ -197,7 +197,7 @@ public:
 
 	void SetDebugLine(uint32_t line) { mDebugLine = line; }
 	uint32_t GetDebugLine() const { return mDebugLine; }
-	void SetVariableHoverCallback(std::function<bool(const std::string&, bool)> callback) { mVariableCallback = callback; }
+	void SetWordCallback(std::function<void(const std::string&)> callback) { mWordCallback = callback; }
 
 	void Render(const char* aTitle, const ImVec2& aSize = ImVec2(), bool aBorder = false);
 	void SetText(const std::string& aText);
@@ -353,7 +353,7 @@ private:
 	void HandleMouseInputs();
 	void Render();
 
-	std::function<bool(const std::string&, bool)> mVariableCallback;
+	std::function<void(const std::string&)> mWordCallback;
 	float mLineSpacing;
 	Lines mLines;
 	EditorState mState;

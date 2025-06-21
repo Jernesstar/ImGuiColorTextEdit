@@ -1108,11 +1108,9 @@ void TextEditor::Render()
 					ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
 					ImGui::EndTooltip();
 				}
-				else if(mVariableCallback(id, true))
+				else
 				{
-					ImGui::BeginTooltip();
-					mVariableCallback(id, false);
-					ImGui::EndTooltip();
+					mVariableCallback(id);
 				}
 			}
 		}
